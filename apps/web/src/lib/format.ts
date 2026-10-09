@@ -23,6 +23,13 @@ export function formatDate(unixSeconds: bigint | number): string {
   }).format(new Date(Number(unixSeconds) * 1000));
 }
 
+/** Date only, e.g. "9 Oct 2026" — for compact list rows. */
+export function formatShortDate(unixSeconds: bigint | number): string {
+  return new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
+    new Date(Number(unixSeconds) * 1000),
+  );
+}
+
 export function formatCountdown(seconds: number): string {
   if (seconds <= 0) return "Matured";
   const d = Math.floor(seconds / 86_400);

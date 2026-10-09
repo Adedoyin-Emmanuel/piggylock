@@ -2,10 +2,10 @@ import { ChevronRight, PiggyBank, Plus, ShieldCheck, Wallet } from "lucide-react
 import type { Address } from "viem";
 import { ThemeToggle } from "../components/theme-toggle";
 import { Badge, Button, Card, Screen } from "../components/ui";
-import { StatusBadge, VaultIcon } from "../components/vault";
+import { VaultIcon } from "../components/vault";
 import type { Savings } from "../hooks/use-savings";
 import { isMainnet, targetChain } from "../lib/env";
-import { formatAmount, formatCountdown, formatDate } from "../lib/format";
+import { formatAmount, formatCountdown, formatShortDate } from "../lib/format";
 import { vaultLabel } from "../lib/goal-names";
 import { unlockAt, vaultStatus } from "../lib/vault-status";
 
@@ -28,7 +28,6 @@ export function Home({
 
   const active = vaults.filter((v) => !v.withdrawn);
   const totalLocked = active.reduce((sum, v) => sum + v.amount, 0n);
-  const readyCount = active.filter((v) => vaultStatus(v, now) === "matured").length;
 
   const sorted = [...vaults].sort((a, b) => {
     const byStatus = ORDER[vaultStatus(a, now)] - ORDER[vaultStatus(b, now)];
@@ -60,20 +59,13 @@ export function Home({
           {formatAmount(totalLocked, decimals)}
           <span className="ml-1.5 text-lg font-semibold text-white/85">{symbol}</span>
         </p>
-        <div className="relative mt-4 flex flex-wrap items-center gap-2 text-sm">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 font-medium">
-            <Wallet className="size-3.5" />
-            <span className="tabular-nums">
-              {formatAmount(balance, decimals)} {symbol}
-            </span>{" "}
-            available
+        <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-sm font-medium">
+          <Wallet className="size-3.5" />
+          <span className="tabular-nums">
+            {formatAmount(balance, decimals)} {symbol}
           </span>
-          {readyCount > 0 && (
-            <span className="rounded-full bg-white px-3 py-1 font-semibold text-hero-to">
-              {readyCount} ready to withdraw
-            </span>
-          )}
-        </div>
+          available
+        </p>
       </section>
 
       <Button onClick={onCreate} disabled={balance === 0n}>
@@ -133,24 +125,28 @@ export function Home({
                 <VaultIcon status={status} />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">{vaultLabel(vault.id)}</p>
-                  <p className="mt-0.5 text-sm text-muted-foreground tabular-nums">
+                  <p
+                    className={
+                      "mt-0.5 truncate text-sm tabular-nums " +
+                      (status === "matured" ? "font-semibold text-primary" : "text-muted-foreground")
+                    }
+                  >
                     {status === "locked"
                       ? `Unlocks in ${formatCountdown(Number(unlockAt(vault)) - now)}`
                       : status === "matured"
                         ? "Ready to withdraw"
-                        : `Matured ${formatDate(vault.maturity)}`}
+                        : `Withdrawn · ${formatShortDate(vault.maturity)}`}
                   </p>
                 </div>
-                <div className="flex flex-col items-end gap-1">
-                  <p
-                    className={
-                      "font-bold tabular-nums " + (status === "withdrawn" ? "text-muted-foreground" : "")
-                    }
-                  >
-                    {formatAmount(vault.amount, decimals)}
-                  </p>
-                  <StatusBadge status={status} />
-                </div>
+                <p
+                  className={
+                    "shrink-0 text-right font-bold tabular-nums " +
+                    (status === "withdrawn" ? "text-muted-foreground" : "")
+                  }
+                >
+                  {formatAmount(vault.amount, decimals)}
+                  <span className="block text-xs font-medium text-muted-foreground">{symbol}</span>
+                </p>
                 <ChevronRight aria-hidden className="-mr-1 size-4 text-muted-foreground" />
               </Card>
             );
