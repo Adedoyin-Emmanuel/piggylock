@@ -3,9 +3,15 @@ import { useState } from "react";
 import type { Address } from "viem";
 import { useConfig, useReadContract } from "wagmi";
 import { simulateContract, writeContract } from "wagmi/actions";
-import { RowsSkeleton, VaultRowSkeleton } from "../components/skeletons";
-import { Button, Card, Row, Screen, Separator } from "../components/ui";
-import { StatusBadge, VaultIcon } from "../components/vault";
+import { DetailRow } from "../components/detail-row";
+import { DetailRowsSkeleton } from "../components/detail-rows-skeleton";
+import { Screen } from "../components/screen";
+import { StatusBadge } from "../components/status-badge";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { Separator } from "../components/ui/separator";
+import { VaultIcon } from "../components/vault-icon";
+import { VaultRowSkeleton } from "../components/vault-row-skeleton";
 import type { Savings } from "../hooks/use-savings";
 import { phaseLabel, useTransaction } from "../hooks/use-transaction";
 import { savingsVaultAbi, vaultAbiWithTokenErrors } from "../lib/abi";
@@ -101,7 +107,7 @@ export function VaultDetails({
 
       <Card className="px-4 py-2">
         <dl>
-          <Row
+          <DetailRow
             label={
               <span className="flex items-center gap-2">
                 <CalendarClock className="size-4" /> Matures on
@@ -110,7 +116,7 @@ export function VaultDetails({
             value={formatDate(vault.maturity)}
           />
           <Separator />
-          <Row
+          <DetailRow
             label={
               <span className="flex items-center gap-2">
                 <Hash className="size-4" /> Vault ID
@@ -124,8 +130,8 @@ export function VaultDetails({
       {status === "locked" && (
         <p className="flex gap-2 rounded-lg bg-accent p-3 text-sm leading-relaxed text-accent-foreground">
           <ShieldCheck className="mt-0.5 size-4 shrink-0" />
-          Locked until maturity. No one — not you, the app's creator, or the fee recipient — can
-          withdraw early.
+          Your savings are safely locked until the date you picked. Nobody can touch them before
+          then, not even us.
         </p>
       )}
 
@@ -135,13 +141,13 @@ export function VaultDetails({
             <h2 className="font-bold">Withdrawal</h2>
             {preview.data ? (
               <dl className="mt-1">
-                <Row label="Principal" value={fmt(vault.amount)} />
-                <Row label={`Fee (${formatBps(feeBps)})`} value={`− ${fmt(fee!)}`} />
+                <DetailRow label="Principal" value={fmt(vault.amount)} />
+                <DetailRow label={`Fee (${formatBps(feeBps)})`} value={`− ${fmt(fee!)}`} />
                 <Separator className="my-1" />
-                <Row label="You receive" value={fmt(net!)} strong />
+                <DetailRow label="You receive" value={fmt(net!)} strong />
               </dl>
             ) : (
-              <RowsSkeleton />
+              <DetailRowsSkeleton />
             )}
             <p className="mt-2 text-xs text-muted-foreground">
               The fee goes to the PiggyLock treasury. MiniPay shows the network fee before you

@@ -3,8 +3,15 @@ import { useId, useState } from "react";
 import { erc20Abi, formatUnits, parseEventLogs, parseUnits, type Address } from "viem";
 import { useConfig } from "wagmi";
 import { readContract, simulateContract, writeContract } from "wagmi/actions";
-import { Button, Card, Checkbox, Input, Label, Row, Screen, Separator } from "../components/ui";
-import { Select } from "../components/select";
+import { DetailRow } from "../components/detail-row";
+import { Screen } from "../components/screen";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { Checkbox } from "../components/ui/checkbox";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Select } from "../components/ui/select";
+import { Separator } from "../components/ui/separator";
 import type { Savings } from "../hooks/use-savings";
 import { phaseLabel, useTransaction } from "../hooks/use-transaction";
 import { savingsVaultAbi, vaultAbiWithTokenErrors } from "../lib/abi";
@@ -240,11 +247,11 @@ export function CreateVault({
           <CalendarClock className="size-4 text-primary" /> Summary
         </h2>
         <dl className="mt-2">
-          <Row label="You lock" value={fmt(amount ?? 0n)} />
-          <Row label="Unlocks around" value={formatDate(unlockEstimate)} />
-          <Row label={`Withdrawal fee (${formatBps(feeBps)})`} value={`− ${fmt(fee)}`} />
+          <DetailRow label="You lock" value={fmt(amount ?? 0n)} />
+          <DetailRow label="Unlocks around" value={formatDate(unlockEstimate)} />
+          <DetailRow label={`Withdrawal fee (${formatBps(feeBps)})`} value={`− ${fmt(fee)}`} />
           <Separator className="my-1" />
-          <Row label="You receive at maturity" value={fmt(net)} strong />
+          <DetailRow label="You receive at maturity" value={fmt(net)} strong />
         </dl>
         <p className="mt-3 flex gap-2 rounded-lg bg-muted p-3 text-xs leading-relaxed text-muted-foreground">
           <Info className="mt-0.5 size-3.5 shrink-0" />

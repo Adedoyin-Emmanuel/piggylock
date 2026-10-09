@@ -1,7 +1,9 @@
 import { ChevronRight, Eye, EyeOff, PiggyBank, Plus, ShieldCheck, Wallet } from "lucide-react";
 import type { Address } from "viem";
-import { Button, Card, Screen } from "../components/ui";
-import { VaultIcon } from "../components/vault";
+import { Screen } from "../components/screen";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { VaultIcon } from "../components/vault-icon";
 import { useHideBalances } from "../hooks/use-hide-balances";
 import type { Savings } from "../hooks/use-savings";
 import { isMainnet, targetChain } from "../lib/env";
