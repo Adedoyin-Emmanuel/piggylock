@@ -1,0 +1,7 @@
+{
+  "Lockbox": {
+    "treasury": "0xbB795CaeAC844F2eF48198f71DeBeb74dA2B8B40",
+    "feeBps": 25,
+    "minLockDuration": 300
+  }
+}

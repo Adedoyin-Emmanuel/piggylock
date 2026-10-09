@@ -1,47 +1,46 @@
 {
   "name": "hardhat",
   "version": "1.0.0",
-  "description": "Smart contracts for lockbox",
-  "main": "index.js",
-  "scripts": {
-    "build": "hardhat compile",
-    "compile": "hardhat compile",
-    "test": "hardhat test",
-    "deploy": "hardhat ignition deploy ignition/modules/Lock.ts",
-    "deploy:celo-sepolia": "hardhat ignition deploy ignition/modules/Lock.ts --network celo-sepolia",
-    "deploy:celo": "hardhat ignition deploy ignition/modules/Lock.ts --network celo",
-    "verify": "hardhat verify",
-    "clean": "hardhat clean"
-  },
-  "keywords": [
-    "hardhat",
-    "ethereum",
-    "celo",
-    "smart-contracts",
-    "solidity"
-  ],
-  "author": "",
+  "private": true,
+  "description": "PiggyLock SavingsVault contracts",
   "license": "MIT",
+  "scripts": {
+    "build": "hardhat compile && pnpm run export-abi",
+    "compile": "hardhat compile && pnpm run export-abi",
+    "export-abi": "node scripts/export-abi.mjs",
+    "test": "hardhat test",
+    "node": "INTERVAL_MINING=1 hardhat node",
+    "deploy:local": "hardhat ignition deploy ignition/modules/Lockbox.ts --network localhost --parameters ignition/parameters/local.json",
+    "deploy:celo-sepolia": "hardhat ignition deploy ignition/modules/Lockbox.ts --network celo-sepolia --parameters ignition/parameters/celo-sepolia.json",
+    "mint:local": "hardhat run scripts/mint-test-usdt.ts --network localhost",
+    "mint:celo-sepolia": "hardhat run scripts/mint-test-usdt.ts --network celo-sepolia",
+    "claim-fees:local": "hardhat run scripts/claim-fees.ts --network localhost",
+    "claim-fees:celo-sepolia": "hardhat run scripts/claim-fees.ts --network celo-sepolia",
+    "advance-time:local": "hardhat run scripts/advance-time.ts --network localhost",
+    "verify": "hardhat ignition verify",
+    "clean": "hardhat clean",
+    "type-check": "tsc --noEmit"
+  },
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@nomicfoundation/hardhat-ignition": "^0.15.0",
-    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
+    "@nomicfoundation/hardhat-ignition-viem": "^0.15.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
     "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@nomicfoundation/hardhat-viem": "^2.0.0",
     "@types/chai": "^4.2.0",
+    "@types/chai-as-promised": "^7.1.6",
     "@types/mocha": ">=9.1.0",
+    "@types/node": "^20.8.0",
     "chai": "^4.2.0",
-    "ethers": "^6.4.0",
-    "hardhat": "^2.19.0",
+    "hardhat": "^2.22.0",
     "hardhat-gas-reporter": "^1.0.8",
     "solidity-coverage": "^0.8.1",
-    "ts-node": ">=8.0.0",
-    "typescript": ">=4.5.0",
-    "viem": "^2.0.0"
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3",
+    "viem": "^2.30.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.0"
+    "@openzeppelin/contracts": "^5.1.0"
   }
 }

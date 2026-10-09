@@ -98,3 +98,12 @@ Thumbs.db
 
 # Turbo
 .turbo
+
+# Any env file except committed examples
+.env.*
+!.env.example
+
+# Hardhat
+apps/contracts/cache/
+apps/contracts/artifacts/
+apps/contracts/typechain-types/
