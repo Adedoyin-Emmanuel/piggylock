@@ -1,11 +1,11 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
 /**
- * Local + testnet deployment: a freely mintable 6-decimal test USDT plus the
+ * Local development: a freely mintable 6-decimal test USDT plus the
  * SavingsVault configured to accept only that token.
  *
- * The Celo Sepolia faucet does not dispense USD₮, so testnet uses MockUSDT.
- * To use an existing token instead, deploy `SavingsVault.ts`.
+ * Celo Sepolia uses `SavingsVault.ts` with Circle's test USDC instead, which
+ * MiniPay recognises and the Circle faucet hands out.
  *
  * The module ID "Lockbox" is the app's former name (it's now PiggyLock). It is
  * kept because Ignition's deployment records (and the mint/claim scripts) key

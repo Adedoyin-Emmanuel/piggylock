@@ -7,7 +7,8 @@ import { deployedAddress } from "./deployment";
 async function main() {
   const vault = await hre.viem.getContractAt(
     "SavingsVault",
-    await deployedAddress("Lockbox#SavingsVault"),
+    // Existing-token deployment (e.g. testnet USDC) first, then the local mock setup.
+    await deployedAddress("SavingsVault#SavingsVault", "Lockbox#SavingsVault"),
   );
   const accrued = await vault.read.accruedFees();
   if (accrued === 0n) return console.log("No fees to claim.");

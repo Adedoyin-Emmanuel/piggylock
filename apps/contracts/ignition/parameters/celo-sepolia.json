@@ -1,6 +1,8 @@
 {
-  "Lockbox": {
-    "treasury": "0xbB795CaeAC844F2eF48198f71DeBeb74dA2B8B40",
+  "SavingsVault": {
+    "token": "0x01C5C0122039549AD1493B8220cABEdD739BC44E",
+    "tokenDecimals": 6,
+    "treasury": "0xA6A0095b043CA3162B9C599e5664Bd7CdD796c75",
     "feeBps": 25,
     "minLockDuration": 300
   }

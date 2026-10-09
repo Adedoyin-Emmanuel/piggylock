@@ -225,6 +225,15 @@ export function Screen({
   actions?: ReactNode;
   children: ReactNode;
 }) {
+  if (!onBack && !actions) {
+    // Nothing to show in a bar: keep the page heading for screen readers only.
+    return (
+      <div className="mx-auto flex min-h-dvh max-w-md flex-col pt-[max(env(safe-area-inset-top),1rem)] pb-[max(env(safe-area-inset-bottom),1.5rem)]">
+        <h1 className="sr-only">{title}</h1>
+        <main className="flex flex-1 flex-col gap-4 px-4">{children}</main>
+      </div>
+    );
+  }
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col pb-[max(env(safe-area-inset-bottom),1.5rem)]">
       <header className="sticky top-0 z-10 flex min-h-14 items-center gap-1 bg-background/85 px-2 pt-[env(safe-area-inset-top)] backdrop-blur-md">

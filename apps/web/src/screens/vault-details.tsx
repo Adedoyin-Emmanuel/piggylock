@@ -11,6 +11,7 @@ import { phaseLabel, useTransaction } from "../hooks/use-transaction";
 import { savingsVaultAbi, vaultAbiWithTokenErrors } from "../lib/abi";
 import { vaultAddress } from "../lib/env";
 import { formatAmount, formatBps, formatDate } from "../lib/format";
+import { readAtFreshBlock } from "../lib/fresh-reads";
 import { getGoalName, vaultLabel } from "../lib/goal-names";
 import { unlockAt, vaultStatus } from "../lib/vault-status";
 
@@ -61,13 +62,16 @@ export function VaultDetails({
     setSubmitting(true);
     try {
       const receipt = await tx.run("Withdraw", async () => {
-        const { request } = await simulateContract(config, {
-          account: address,
-          address: vaultAddress!,
-          abi: vaultAbiWithTokenErrors,
-          functionName: "withdraw",
-          args: [vaultId],
-        });
+        const { request } = await readAtFreshBlock(config, (blockNumber) =>
+          simulateContract(config, {
+            account: address,
+            address: vaultAddress!,
+            abi: vaultAbiWithTokenErrors,
+            functionName: "withdraw",
+            args: [vaultId],
+            blockNumber,
+          }),
+        );
         return writeContract(config, request);
       });
       if (receipt) {

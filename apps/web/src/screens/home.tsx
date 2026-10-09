@@ -1,8 +1,8 @@
-import { ChevronRight, PiggyBank, Plus, ShieldCheck, Wallet } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, PiggyBank, Plus, ShieldCheck, Wallet } from "lucide-react";
 import type { Address } from "viem";
-import { ThemeToggle } from "../components/theme-toggle";
-import { Badge, Button, Card, Screen } from "../components/ui";
+import { Button, Card, Screen } from "../components/ui";
 import { VaultIcon } from "../components/vault";
+import { useHideBalances } from "../hooks/use-hide-balances";
 import type { Savings } from "../hooks/use-savings";
 import { isMainnet, targetChain } from "../lib/env";
 import { formatAmount, formatCountdown, formatShortDate } from "../lib/format";
@@ -25,6 +25,9 @@ export function Home({
   onOpen: (id: bigint) => void;
 }) {
   const { vaults = [], decimals = 6, symbol = "", balance = 0n } = savings;
+  const { hidden, toggle } = useHideBalances();
+  const MASK = "••••";
+  const show = (value: bigint) => (hidden ? MASK : formatAmount(value, decimals));
 
   const active = vaults.filter((v) => !v.withdrawn);
   const totalLocked = active.reduce((sum, v) => sum + v.amount, 0n);
@@ -36,14 +39,7 @@ export function Home({
 
   return (
     <Screen
-      // Visually hidden: the summary card leads the screen; the page keeps a heading.
-      title={<span className="sr-only">PiggyLock</span>}
-      actions={
-        <>
-          {targetChain.testnet && <Badge variant="warning">Testnet</Badge>}
-          <ThemeToggle />
-        </>
-      }
+      title="PiggyLock"
     >
       {/* Hero */}
       <section
@@ -52,17 +48,28 @@ export function Home({
       >
         <div aria-hidden className="absolute -top-12 -right-10 size-40 rounded-full bg-white/10" />
         <div aria-hidden className="absolute -right-4 -bottom-16 size-32 rounded-full bg-white/5" />
-        <p className="relative flex items-center gap-1.5 text-sm font-medium text-white/85">
-          <ShieldCheck className="size-4" /> Total locked
-        </p>
+        <div className="relative flex items-center justify-between">
+          <p className="flex items-center gap-1.5 text-sm font-medium text-white/85">
+            <ShieldCheck className="size-4" /> Total locked
+          </p>
+          <button
+            type="button"
+            onClick={toggle}
+            aria-pressed={hidden}
+            aria-label={hidden ? "Show balances" : "Hide balances"}
+            className="-mt-2 -mr-2 flex size-11 items-center justify-center rounded-full text-white/85 transition-colors outline-none hover:bg-white/10 focus-visible:ring-[3px] focus-visible:ring-white/40"
+          >
+            {hidden ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+          </button>
+        </div>
         <p className="relative mt-1 text-4xl font-extrabold tracking-tight tabular-nums">
-          {formatAmount(totalLocked, decimals)}
+          {show(totalLocked)}
           <span className="ml-1.5 text-lg font-semibold text-white/85">{symbol}</span>
         </p>
         <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-sm font-medium">
           <Wallet className="size-3.5" />
           <span className="tabular-nums">
-            {formatAmount(balance, decimals)} {symbol}
+            {show(balance)} {symbol}
           </span>
           available
         </p>
@@ -81,8 +88,7 @@ export function Home({
           </a>
         ) : (
           <p className="-mt-1 text-center text-sm text-muted-foreground">
-            You need {symbol} to create a vault. On testnet, mint some with the project's mint
-            script.
+            You need {symbol} to create a vault. Get free test {symbol} at faucet.circle.com.
           </p>
         ))}
 
@@ -144,7 +150,7 @@ export function Home({
                     (status === "withdrawn" ? "text-muted-foreground" : "")
                   }
                 >
-                  {formatAmount(vault.amount, decimals)}
+                  {show(vault.amount)}
                   <span className="block text-xs font-medium text-muted-foreground">{symbol}</span>
                 </p>
                 <ChevronRight aria-hidden className="-mr-1 size-4 text-muted-foreground" />

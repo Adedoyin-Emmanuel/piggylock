@@ -10,6 +10,7 @@ import { phaseLabel, useTransaction } from "../hooks/use-transaction";
 import { savingsVaultAbi, vaultAbiWithTokenErrors } from "../lib/abi";
 import { isMainnet, vaultAddress } from "../lib/env";
 import { formatAmount, formatBps, formatDate, splitFee } from "../lib/format";
+import { readAtFreshBlock } from "../lib/fresh-reads";
 import { saveGoalName } from "../lib/goal-names";
 
 const DAY = 86_400;
@@ -93,36 +94,48 @@ export function CreateVault({
 
   async function submit() {
     if (!amount || !tokenAddress || !vaultAddress) return;
+    const token = tokenAddress;
+    const vault = vaultAddress;
     setSubmitting(true);
     try {
-      const allowance = await readContract(config, {
-        address: tokenAddress,
-        abi: erc20Abi,
-        functionName: "allowance",
-        args: [address, vaultAddress],
-      });
+      // Pinned reads: never act on state older than our own last transaction.
+      const allowance = await readAtFreshBlock(config, (blockNumber) =>
+        readContract(config, {
+          address: token,
+          abi: erc20Abi,
+          functionName: "allowance",
+          args: [address, vault],
+          blockNumber,
+        }),
+      );
       if (allowance < amount) {
         const approved = await tx.run(`Approve ${symbol}`, async () => {
-          const { request } = await simulateContract(config, {
-            account: address,
-            address: tokenAddress,
-            abi: erc20Abi,
-            functionName: "approve",
-            args: [vaultAddress!, amount],
-          });
+          const { request } = await readAtFreshBlock(config, (blockNumber) =>
+            simulateContract(config, {
+              account: address,
+              address: token,
+              abi: erc20Abi,
+              functionName: "approve",
+              args: [vault, amount],
+              blockNumber,
+            }),
+          );
           return writeContract(config, request);
         });
         if (!approved) return;
       }
 
       const receipt = await tx.run("Lock savings", async () => {
-        const { request } = await simulateContract(config, {
-          account: address,
-          address: vaultAddress!,
-          abi: vaultAbiWithTokenErrors,
-          functionName: "createVault",
-          args: [amount, BigInt(duration)],
-        });
+        const { request } = await readAtFreshBlock(config, (blockNumber) =>
+          simulateContract(config, {
+            account: address,
+            address: vault,
+            abi: vaultAbiWithTokenErrors,
+            functionName: "createVault",
+            args: [amount, BigInt(duration)],
+            blockNumber,
+          }),
+        );
         return writeContract(config, request);
       });
       if (!receipt) return;

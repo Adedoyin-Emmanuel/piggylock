@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import { WagmiProvider } from "wagmi";
 import App from "./app.tsx";
 import "./index.css";
-import "./lib/theme.ts";
 import { config } from "./lib/wagmi.ts";
 
 const queryClient = new QueryClient();

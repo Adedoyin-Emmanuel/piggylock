@@ -16,7 +16,8 @@ const REVERT_MESSAGES: Record<string, string> = {
     "The network hasn't reached the unlock time yet. Try again in a few seconds.",
   AlreadyWithdrawn: "This vault has already been withdrawn.",
   ERC20InsufficientBalance: "Your balance is too low for this amount.",
-  ERC20InsufficientAllowance: "The vault isn't approved to move this amount yet.",
+  ERC20InsufficientAllowance:
+    "Your approval hasn't reached the network yet. Try again in a few seconds.",
   SafeERC20FailedOperation: "The token transfer failed. No funds moved.",
 };
 

@@ -5,6 +5,7 @@ import { useConfig } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
 import { explorerTxUrl } from "../lib/env";
 import { friendlyError } from "../lib/errors";
+import { noteConfirmedBlock } from "../lib/fresh-reads";
 
 export type TxPhase = "idle" | "signing" | "pending" | "confirmed" | "failed";
 
@@ -42,6 +43,7 @@ export function useTransaction() {
         setPhase("pending");
         toast.loading(`${label}: waiting for confirmation…`, { id });
         const receipt = await waitForTransactionReceipt(config, { hash });
+        noteConfirmedBlock(receipt.blockNumber);
         if (receipt.status !== "success") {
           setPhase("failed");
           toast.error(withExplorerLink(`${label} failed on-chain. No funds moved.`, hash), {
