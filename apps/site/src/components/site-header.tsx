@@ -19,7 +19,7 @@ const connect = [
 ];
 
 /**
- * Sticky top bar. On mobile, a shadcn/ui-style menu: a two-line toggle that
+ * Sticky top bar. On mobile, a shadcn/ui-style menu: a three-line toggle that
  * morphs into an ✕, opening a full-screen, blurred panel below the header.
  */
 export function SiteHeader() {
@@ -72,15 +72,21 @@ export function SiteHeader() {
           aria-controls="mobile-menu"
           className="-mr-2 flex size-11 touch-manipulation items-center justify-center rounded-lg outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:hidden"
         >
-          <span className="relative size-4" aria-hidden>
+          {/* Three lines that morph into an ✕: outer lines rotate, middle fades. */}
+          <span className="relative h-3.5 w-[18px]" aria-hidden>
             <span
-              className={`absolute left-0 block h-0.5 w-4 bg-foreground transition-all duration-100 ${
-                open ? "top-[0.4rem] -rotate-45" : "top-1"
+              className={`absolute left-0 block h-0.5 w-full rounded-full bg-foreground transition-all duration-150 ${
+                open ? "top-1.5 rotate-45" : "top-0"
               }`}
             />
             <span
-              className={`absolute left-0 block h-0.5 w-4 bg-foreground transition-all duration-100 ${
-                open ? "top-[0.4rem] rotate-45" : "top-2.5"
+              className={`absolute top-1.5 left-0 block h-0.5 w-full rounded-full bg-foreground transition-opacity duration-150 ${
+                open ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 block h-0.5 w-full rounded-full bg-foreground transition-all duration-150 ${
+                open ? "top-1.5 -rotate-45" : "top-3"
               }`}
             />
           </span>
