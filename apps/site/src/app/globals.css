@@ -142,3 +142,32 @@
     @apply font-serif font-medium tracking-[-0.01em];
   }
 }
+
+/*
+ * Link hover: an underline that grows from left to right into a full line.
+ * Put it on the link itself, or on the text <span> inside a link with an icon.
+ */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size 250ms ease;
+
+  &:hover,
+  &:focus-visible,
+  a:hover > &,
+  a:focus-visible > & {
+    background-size: 100% 1px;
+  }
+}
+
+@theme {
+  --animate-fade-in: fade-in 100ms ease-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}

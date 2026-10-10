@@ -10,3 +10,15 @@ export const openInMiniPayUrl = appId
   : undefined;
 
 export const getMiniPayUrl = "https://www.minipay.to";
+
+export const githubUrl = "https://github.com/Adedoyin-Emmanuel/piggylock";
+export const authorUrl = "https://adedoyin.dev";
+export const authorName = "Adedoyin Emmanuel";
+
+export const siteUrl = "https://piggylock.adedoyin.dev";
+
+export const socials = {
+  x: "https://x.com/Emmysoft_Tm",
+  instagram: "https://www.instagram.com/heyemmysoft",
+  linkedin: "https://www.linkedin.com/in/Adedoyin-Emmanuel",
+};

@@ -1,7 +1,21 @@
-import { Eye, Landmark, Layers, Percent, ShieldCheck, Timer } from "lucide-react";
+import {
+  BadgePercentIcon,
+  BankIcon,
+  GithubIcon,
+  HourglassIcon,
+  InstagramIcon,
+  Linkedin01Icon,
+  NewTwitterIcon,
+  OpenSourceIcon,
+  ShieldCheckIcon,
+  Target02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Logo } from "@/components/logo";
 import { MiniAppButton } from "@/components/miniapp-button";
 import { Phone } from "@/components/phone";
+import { SiteHeader } from "@/components/site-header";
+import { authorName, authorUrl, githubUrl, socials } from "@/lib/config";
 
 const steps = [
   { title: "Create a vault", body: "Name your goal, like school fees or a new phone, and choose how much to save." },
@@ -10,24 +24,24 @@ const steps = [
 ];
 
 const features = [
-  { icon: Timer, title: "Live countdown", body: "See exactly how long until each vault unlocks." },
-  { icon: Layers, title: "Several goals at once", body: "Keep separate vaults, each with its own date." },
-  { icon: Eye, title: "Hide your balance", body: "Mask your amounts with one tap when others are around." },
+  { icon: HourglassIcon, title: "Live countdown", body: "See exactly how long until each vault unlocks." },
+  { icon: Target02Icon, title: "Several goals at once", body: "Keep separate vaults, each with its own date." },
+  { icon: OpenSourceIcon, title: "Open source", body: "Every line of code is public on GitHub, so anyone can check how it works." },
 ];
 
 const promises = [
   {
-    icon: ShieldCheck,
+    icon: ShieldCheckIcon,
     title: "No early withdrawals",
     body: "Once it's locked, nobody can move it before your date. Not you, and not us.",
   },
   {
-    icon: Landmark,
+    icon: BankIcon,
     title: "Your money stays on Celo",
     body: "Savings are held by a smart contract on the Celo blockchain, never by PiggyLock.",
   },
   {
-    icon: Percent,
+    icon: BadgePercentIcon,
     title: "One small fee",
     body: "0.25% when you withdraw. It's shown before you confirm and can never change.",
   },
@@ -55,13 +69,7 @@ const faqs = [
 export default function Home() {
   return (
     <>
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
-        <Logo />
-        <nav className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
-          <a href="#how-it-works" className="hover:text-foreground">How it works</a>
-          <a href="#faq" className="hidden hover:text-foreground sm:inline">FAQ</a>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <main>
         {/* Hero */}
@@ -83,7 +91,7 @@ export default function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how-it-works" className="scroll-mt-8 border-y bg-card">
+        <section id="how-it-works" className="scroll-mt-20 border-y bg-card">
           <div className="mx-auto max-w-6xl px-5 py-20">
             <h2 className="text-4xl sm:text-5xl">How it works</h2>
             <ol className="mt-10 grid gap-8 sm:grid-cols-3">
@@ -113,10 +121,10 @@ export default function Home() {
               Every vault shows what you&apos;ve saved and how long is left, down to the second.
             </p>
             <ul className="mt-8 flex flex-col gap-6">
-              {features.map(({ icon: Icon, title, body }) => (
+              {features.map(({ icon, title, body }) => (
                 <li key={title} className="flex gap-4">
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                    <Icon className="size-5" />
+                    <HugeiconsIcon icon={icon} className="size-5" />
                   </span>
                   <div>
                     <h3 className="font-bold">{title}</h3>
@@ -135,9 +143,9 @@ export default function Home() {
               Nobody can touch it early. Not even us.
             </h2>
             <div className="mt-10 grid gap-5 sm:grid-cols-3">
-              {promises.map(({ icon: Icon, title, body }) => (
+              {promises.map(({ icon, title, body }) => (
                 <div key={title} className="rounded-xl border bg-background p-6">
-                  <Icon className="size-6 text-primary" />
+                  <HugeiconsIcon icon={icon} className="size-6 text-primary" />
                   <h3 className="mt-4 text-lg font-bold">{title}</h3>
                   <p className="mt-2 leading-relaxed text-muted-foreground">{body}</p>
                 </div>
@@ -147,7 +155,7 @@ export default function Home() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="mx-auto max-w-3xl scroll-mt-8 px-5 py-20">
+        <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-5 py-20">
           <h2 className="text-4xl sm:text-5xl">Questions</h2>
           <div className="mt-8 divide-y border-y">
             {faqs.map(({ q, a }) => (
@@ -166,7 +174,7 @@ export default function Home() {
 
         {/* Final call to action */}
         <section className="mx-auto max-w-6xl px-5 pb-20">
-          <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-hero-from to-hero-to px-6 py-14 text-center text-white sm:px-12">
+          <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-hero-from to-hero-to px-5 py-14 text-center text-white sm:px-12">
             <div aria-hidden className="absolute -top-16 -right-12 size-56 rounded-full bg-white/10" />
             <div aria-hidden className="absolute -bottom-20 -left-10 size-48 rounded-full bg-white/5" />
             <h2 className="relative text-4xl sm:text-5xl">
@@ -176,17 +184,55 @@ export default function Home() {
               Set a goal, pick a date, and let your savings wait for you.
             </p>
             <div className="relative mt-8 flex justify-center">
-              <MiniAppButton inverted />
+              <MiniAppButton inverted center />
             </div>
           </div>
         </section>
       </main>
 
       <footer className="border-t">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <Logo />
-          <p>Built for MiniPay on Celo. Not affiliated with Opera or MiniPay.</p>
-          <p>© {new Date().getFullYear()} PiggyLock</p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-10 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex flex-col gap-2">
+            <Logo />
+            <p className="text-sm text-muted-foreground">
+              Built for MiniPay on Celo. Not affiliated with Opera or MiniPay.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 text-sm sm:items-end">
+            <ul className="-ml-2.5 flex items-center gap-1 sm:ml-0 sm:-mr-2.5" aria-label="Social links">
+              {[
+                { href: socials.x, label: "X (formerly Twitter)", icon: NewTwitterIcon },
+                { href: socials.instagram, label: "Instagram", icon: InstagramIcon },
+                { href: socials.linkedin, label: "LinkedIn", icon: Linkedin01Icon },
+                { href: githubUrl, label: "GitHub", icon: GithubIcon },
+              ].map(({ href, label, icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    aria-label={label}
+                    title={label}
+                    className="flex size-10 items-center justify-center rounded-lg text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                  >
+                    <HugeiconsIcon icon={icon} className="size-5" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-muted-foreground">
+              <a href={githubUrl} className="font-semibold text-foreground">
+                <span className="link-underline">Star on GitHub</span>
+              </a>
+              <span aria-hidden>·</span>
+              <span>
+                Made by{" "}
+                <a href={authorUrl} className="link-underline font-semibold text-foreground">
+                  {authorName}
+                </a>
+              </span>
+              <span aria-hidden>·</span>
+              <span>© {new Date().getFullYear()} PiggyLock</span>
+            </p>
+          </div>
         </div>
       </footer>
     </>

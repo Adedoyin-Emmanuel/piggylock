@@ -1,4 +1,5 @@
-import { ChevronDown, X } from "lucide-react";
+import { ArrowDown01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 /**
  * A real PiggyLock screenshot shown the way it looks in use: an iPhone-style
@@ -16,7 +17,7 @@ export function Phone({
   className?: string;
 }) {
   return (
-    <div className={`relative w-[300px] shrink-0 ${className}`}>
+    <div className={`relative w-full max-w-[300px] shrink-0 ${className}`}>
       {/* Side buttons */}
       <span aria-hidden className="absolute top-[108px] -left-[3px] h-7 w-[3px] rounded-l-sm bg-[#2b2d2a]" />
       <span aria-hidden className="absolute top-[152px] -left-[3px] h-12 w-[3px] rounded-l-sm bg-[#2b2d2a]" />
@@ -33,9 +34,9 @@ export function Phone({
 
           {/* MiniPay mini-app header */}
           <div aria-hidden className="flex h-10 shrink-0 items-center px-4 text-[#0d0e0c] dark:text-white">
-            <X className="size-[18px]" strokeWidth={2.25} />
+            <HugeiconsIcon icon={Cancel01Icon} className="size-[18px]" strokeWidth={2.25} />
             <span className="flex flex-1 items-center justify-center gap-1 pr-[18px] text-[13px] font-semibold">
-              PiggyLock <ChevronDown className="size-3.5" strokeWidth={2.5} />
+              PiggyLock <HugeiconsIcon icon={ArrowDown01Icon} className="size-3.5" strokeWidth={2.5} />
             </span>
           </div>
 
