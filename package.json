@@ -1,10 +1,10 @@
 {
   "name": "piggylock",
   "version": "0.1.0",
-  "description": "PiggyLock — a MiniPay USDT savings vault",
+  "description": "PiggyLock \u2014 a MiniPay USDT savings vault",
   "private": true,
   "scripts": {
-    "build": "pnpm contracts:compile && pnpm web:build",
+    "build": "pnpm contracts:compile && pnpm web:build && pnpm site:build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
@@ -14,7 +14,9 @@
     "contracts:deploy:local": "pnpm --filter hardhat deploy:local",
     "contracts:deploy:celo-sepolia": "pnpm --filter hardhat deploy:celo-sepolia",
     "web:dev": "pnpm --filter web dev",
-    "web:build": "pnpm --filter web build"
+    "web:build": "pnpm --filter web build",
+    "site:dev": "pnpm --filter site dev",
+    "site:build": "pnpm --filter site build"
   },
   "devDependencies": {
     "turbo": "^1.10.16",

@@ -1,0 +1,144 @@
+/* Design tokens copied verbatim from apps/web/src/index.css so the site matches the app exactly. */
+@import "tailwindcss";
+@import "@fontsource-variable/dm-sans";
+/* Site-only: serif for headings. */
+@import "@fontsource-variable/playfair-display";
+
+/* Dark mode follows the phone's system setting. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
+
+/*
+ * shadcn/ui-style design tokens, tuned to MiniPay's green palette
+ * (#07955F brand, #005D3A deep, #45CD85 bright). Text/background pairs
+ * are chosen to meet WCAG AA contrast.
+ */
+:root {
+  --radius: 0.75rem;
+  --background: #f6f7f5;
+  --foreground: #0d0e0c;
+  --card: #ffffff;
+  --card-foreground: #0d0e0c;
+  --primary: #068456;
+  --primary-foreground: #ffffff;
+  --secondary: #eef1ed;
+  --secondary-foreground: #0d0e0c;
+  --muted: #eef1ed;
+  --muted-foreground: #5b6660;
+  --accent: #e6f6ee;
+  --accent-foreground: #005d3a;
+  --destructive: #c8312b;
+  --warning: #9a5b00;
+  --warning-bg: #fff6e5;
+  --border: #e2e6e1;
+  --input: #d7dcd6;
+  --ring: #45cd85;
+  --hero-from: #068456;
+  --hero-to: #005d3a;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0c0a;
+    --foreground: #f2f4f1;
+    --card: #141613;
+    --card-foreground: #f2f4f1;
+    --primary: #45cd85;
+    --primary-foreground: #0b0c0a;
+    --secondary: #1d201c;
+    --secondary-foreground: #f2f4f1;
+    --muted: #1d201c;
+    --muted-foreground: #98a29c;
+    --accent: #10291c;
+    --accent-foreground: #7ee0ae;
+    --destructive: #f2665f;
+    --warning: #f5b84a;
+    --warning-bg: #2a2010;
+    --border: rgb(255 255 255 / 0.09);
+    --input: rgb(255 255 255 / 0.14);
+    --ring: #45cd85;
+    --hero-from: #0b6e47;
+    --hero-to: #053b25;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hero-from: var(--hero-from);
+  --color-hero-to: var(--hero-to);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@theme {
+  --animate-popover-in: popover-in 120ms ease-out;
+  @keyframes popover-in {
+    from {
+      opacity: 0;
+      transform: scale(0.97);
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-size: 16px;
+    font-feature-settings: "tnum" 0;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------------
+ * Site-only additions (not part of the app's tokens above).
+ * ---------------------------------------------------------------------- */
+@theme inline {
+  --font-serif: "Playfair Display Variable", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  h1,
+  h2 {
+    @apply font-serif font-medium tracking-[-0.01em];
+  }
+}
