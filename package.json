@@ -19,7 +19,7 @@
     "site:build": "pnpm --filter site build"
   },
   "devDependencies": {
-    "turbo": "^1.10.16",
+    "turbo": "^2.9.14",
     "typescript": "~5.9.3"
   },
   "packageManager": "pnpm@10.34.6",
