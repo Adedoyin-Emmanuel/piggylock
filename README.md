@@ -1,4 +1,10 @@
-# PiggyLock
+<h1 align="center">PiggyLock</h1>
+
+<p align="center">Savings you can't touch early. Built for MiniPay on Celo.</p>
+
+<p align="center">
+  <img src="apps/site/public/og-image.png" alt="PiggyLock: savings you can't touch early. The app showing 550 USDT locked across three savings vaults." width="100%" />
+</p>
 
 PiggyLock is a savings app for MiniPay. You put money aside until a date you choose, and nobody can touch it before then, not even you.
 
